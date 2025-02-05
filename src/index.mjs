@@ -1,1 +1,5 @@
-console.log('hello');
+import parsePathToCommands from './parsePathToCommands.mjs';
+
+export {
+  parsePathToCommands,
+};
