@@ -4,6 +4,7 @@ logger
 *.tar
 .DS_store
 .env
+dist/*
 .state.json
 _index.mjs
 _temps
