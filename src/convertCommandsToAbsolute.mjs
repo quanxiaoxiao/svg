@@ -51,15 +51,17 @@ const convertCommandsToAbsolute = (commandList) => {
   const result = [['M', start[1], start[2]]];
   for (let i = 0; i < other.length; i++) {
     const [name, ...values] = other[i];
-    const handler = commands[name.toLowerCase()];
+    const commandName = name.toLowerCase();
+    const commandNameWithUpperCase = name.toUpperCase();
+    const handler = commands[commandName];
     if (/^[A-Z]$/.test(name)) {
       result.push([name].concat(values));
     } else if (name === 'm') {
       const point = getPointAtLastMoveCommand(result);
-      result.push([name.toUpperCase()].concat(handler.translate(values, point)));
+      result.push([commandNameWithUpperCase].concat(handler.translate(values, point)));
     } else {
       const point = getLastPointOfCommandList(result);
-      result.push([name.toUpperCase()].concat(handler.translate(values, point)));
+      result.push([commandNameWithUpperCase].concat(handler.translate(values, point)));
     }
   }
   return result;

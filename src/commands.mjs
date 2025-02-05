@@ -16,7 +16,9 @@ export default {
       x: v[0],
       y: v[1],
     }),
-    coordinates: (v) => [[v[0], v[1]]],
+    coordinates: (v) => [
+      [v[0], v[1]],
+    ],
   },
   h: {
     command: 'horizontal lineto',
