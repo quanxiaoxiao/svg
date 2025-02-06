@@ -1,6 +1,6 @@
 import commands from './commands.mjs';
 
-const getPointAtLastMoveCommand = (list) => {
+const getPointFromLastMoveCommand = (list) => {
   const len = list.length;
   if (len === 0) {
     return [0, 0];
@@ -57,7 +57,7 @@ const convertCommandsToAbsolute = (commandList) => {
     if (/^[A-Z]$/.test(name)) {
       result.push([name].concat(values));
     } else if (name === 'm') {
-      const point = getPointAtLastMoveCommand(result);
+      const point = getPointFromLastMoveCommand(result);
       result.push([commandNameWithUpperCase].concat(handler.translate(values, point)));
     } else {
       const point = getLastPointOfCommandList(result);
