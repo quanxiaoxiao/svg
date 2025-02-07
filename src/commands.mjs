@@ -3,7 +3,8 @@ const translateY = (v, point) => v + point[1];
 
 export default {
   m: {
-    command: 'moveto',
+    name: 'Move to',
+    description: 'M {{number:x}} {{number:y}}',
     translate: (v, point) => [
       translateX(v[0], point),
       translateY(v[1], point),
@@ -20,40 +21,9 @@ export default {
       [v[0], v[1]],
     ],
   },
-  h: {
-    command: 'horizontal lineto',
-    translate: (v, point) => [
-      translateX(v[0], point),
-    ],
-    scale: (v, s) => [
-      v[0] * s,
-    ],
-    point: (v) => ({
-      x: v[0],
-      y: null,
-    }),
-    coordinates: (v, coordinate) => [
-      [v[0] + coordinate[0], coordinate[1]],
-    ],
-  },
-  v: {
-    command: 'vertical lineto',
-    translate: (v, point) => [
-      translateY(v[0], point),
-    ],
-    scale: (v, s) => [
-      v[0] * s,
-    ],
-    point: (v) => ({
-      x: null,
-      y: v[0],
-    }),
-    coordinates: (v, coordinate) => [
-      [coordinate[0], v[0] + coordinate[1]],
-    ],
-  },
   l: {
-    command: 'lineto',
+    name: 'Line to',
+    description: 'L {{number:x}} {{number:y}}',
     translate: (v, point) => [
       translateX(v[0], point),
       translateY(v[1], point),
@@ -70,8 +40,43 @@ export default {
       [v[0] + coordinate[0], v[1] + coordinate[1]],
     ],
   },
+  h: {
+    name: 'Horizontal Line to',
+    description: 'H {{number:x}}',
+    translate: (v, point) => [
+      translateX(v[0], point),
+    ],
+    scale: (v, s) => [
+      v[0] * s,
+    ],
+    point: (v) => ({
+      x: v[0],
+      y: null,
+    }),
+    coordinates: (v, coordinate) => [
+      [v[0] + coordinate[0], coordinate[1]],
+    ],
+  },
+  v: {
+    name: 'Vertical Line to',
+    description: 'V {{number:x}}',
+    translate: (v, point) => [
+      translateY(v[0], point),
+    ],
+    scale: (v, s) => [
+      v[0] * s,
+    ],
+    point: (v) => ({
+      x: null,
+      y: v[0],
+    }),
+    coordinates: (v, coordinate) => [
+      [coordinate[0], v[0] + coordinate[1]],
+    ],
+  },
   a: {
-    command: 'elliptical arc',
+    name: 'Arc to',
+    description: 'A {{number:rx}} {{number:ry}} {{x-axis-rotation:0||1}} {{large-arc-flag}:0||1} {{sweep-flag}:0||1} {{number:x}} {{number:y}}',
     translate: (v, point) => [
       v[0],
       v[1],
@@ -96,7 +101,8 @@ export default {
     }),
   },
   c: {
-    command: 'curveto',
+    name: 'Cubic Bézier Curve',
+    description: 'C {{number:x}} {{number:y}}, {{number:x}} {{number:y}}, {{number:x}} {{number:y}}',
     translate: (v, point) => [
       translateX(v[0], point),
       translateY(v[1], point),
@@ -119,7 +125,8 @@ export default {
     }),
   },
   s: {
-    command: 'smooth curveto',
+    name: 'Smooth Cubic Bézier Curve',
+    description: 'S {{number:x}} {{number:y}}, {{number:x}} {{number:y}}',
     translate: (v, point) => [
       translateX(v[0], point),
       translateY(v[1], point),
@@ -138,7 +145,8 @@ export default {
     }),
   },
   q: {
-    command: 'quadratic curveto',
+    name: 'Quadratic Bézier Curve',
+    description: 'Q {{number:x}} {{number:y}}, {{number:x}} {{number:y}}',
     translate: (v, point) => [
       translateX(v[0], point),
       translateY(v[1], point),
@@ -157,7 +165,8 @@ export default {
     }),
   },
   t: {
-    command: 'smooth quadratic curveto',
+    name: 'Smooth Quadratic Bézier Curve',
+    description: 'T {{number:x}} {{number:y}}',
     translate: (v, point) => [
       translateX(v[0], point),
       translateY(v[1], point),
@@ -172,7 +181,8 @@ export default {
     }),
   },
   z: {
-    command: 'closepath',
+    name: 'Close Path',
+    description: 'Z',
     translate: () => [],
     scale: () => [],
     point: () => ({
