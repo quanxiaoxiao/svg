@@ -31,6 +31,7 @@ export default [
       'simple-import-sort/exports': 'error',
       'no-duplicate-imports': 2,
       'array-callback-return': 2,
+      'prefer-const': 2,
       'block-scoped-var': 2,
       'consistent-return': 2,
       'default-case': 2,

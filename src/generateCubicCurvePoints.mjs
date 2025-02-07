@@ -16,13 +16,13 @@ export default (
 ) => {
   const n = 40;
   const p0 = [x0, y0];
-  let p1 = [x1, y1];
-  let p2 = [x2, y2];
-  let p3 = [x3, y3];
+  const p1 = [x1, y1];
+  const p2 = [x2, y2];
+  const p3 = [x3, y3];
 
-  let points = [];
+  const points = [];
   for (let i = 0; i < n ; i++) {
-    let t = i / (n - 1);
+    const t = i / (n - 1);
     points.push(cubicBezier(p0, p1, p2, p3, t));
   }
   return points;
