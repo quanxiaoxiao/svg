@@ -17,9 +17,6 @@ export default {
       x: v[0],
       y: v[1],
     }),
-    coordinates: (v) => [
-      [v[0], v[1]],
-    ],
   },
   l: {
     name: 'Line to',
@@ -36,9 +33,6 @@ export default {
       x: v[0],
       y: v[1],
     }),
-    coordinates: (v, coordinate) => [
-      [v[0] + coordinate[0], v[1] + coordinate[1]],
-    ],
   },
   h: {
     name: 'Horizontal Line to',
@@ -53,9 +47,6 @@ export default {
       x: v[0],
       y: null,
     }),
-    coordinates: (v, coordinate) => [
-      [v[0] + coordinate[0], coordinate[1]],
-    ],
   },
   v: {
     name: 'Vertical Line to',
@@ -70,9 +61,6 @@ export default {
       x: null,
       y: v[0],
     }),
-    coordinates: (v, coordinate) => [
-      [coordinate[0], v[0] + coordinate[1]],
-    ],
   },
   a: {
     name: 'Arc to',
