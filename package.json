@@ -16,8 +16,12 @@
     "globals": "^15.14.0"
   },
   "dependencies": {
+    "@napi-rs/canvas": "^0.1.66",
     "cheerio": "^1.0.0",
     "chroma-js": "^3.1.2",
-    "parse-svg-path": "^0.1.2"
+    "lodash": "^4.17.21",
+    "parse-svg-path": "^0.1.2",
+    "point-at-length": "^1.1.0",
+    "shelljs": "^0.8.5"
   }
 }

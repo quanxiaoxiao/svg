@@ -1,4 +1,5 @@
 import commands from './commands.mjs';
+import getLastPointOfCommands from './getLastPointOfCommands.mjs';
 
 const getPointFromLastMoveCommand = (list) => {
   const len = list.length;
@@ -12,32 +13,6 @@ const getPointFromLastMoveCommand = (list) => {
     }
   }
   return [0, 0];
-};
-
-const getLastPointOfCommandList = (list) => {
-  const len = list.length;
-  if (len === 0) {
-    return [0, 0];
-  }
-  let x = null;
-  let y = null;
-  for (let i = len - 1; i >= 0; i--) {
-    const [m, ...values] = list[i];
-    const ret = commands[m.toLowerCase()].point(values);
-    if (x == null && ret.x != null) {
-      x = ret.x;
-    }
-    if (y == null && ret.y != null) {
-      y = ret.y;
-    }
-    if (x != null && y != null) {
-      return [x, y];
-    }
-  }
-  if (x == null || y == null) {
-    return [0, 0];
-  }
-  return [x, y];
 };
 
 const convertCommandsToAbsolute = (commandList) => {
@@ -60,7 +35,7 @@ const convertCommandsToAbsolute = (commandList) => {
       const point = getPointFromLastMoveCommand(result);
       result.push([commandNameWithUpperCase].concat(handler.translate(values, point)));
     } else {
-      const point = getLastPointOfCommandList(result);
+      const point = getLastPointOfCommands(result);
       result.push([commandNameWithUpperCase].concat(handler.translate(values, point)));
     }
   }
