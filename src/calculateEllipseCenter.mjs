@@ -9,12 +9,10 @@ export default (
   x1,
   y1,
 )  => {
-  // 将角度转换为弧度
   const rad = (xAxisRotation * Math.PI) / 180;
   const cosRad = Math.cos(rad);
   const sinRad = Math.sin(rad);
 
-  // 计算起点和终点的中点
   const dx = (x0 - x1) / 2;
   const dy = (y0 - y1) / 2;
 

@@ -1,12 +1,12 @@
-const translateX = (v, translate) => v + translate[0];
-const translateY = (v, translate) => v + translate[1];
+const translateX = (v, point) => v + point[0];
+const translateY = (v, point) => v + point[1];
 
 export default {
   m: {
     command: 'moveto',
-    translate: (v, translate) => [
-      translateX(v[0], translate),
-      translateY(v[1], translate),
+    translate: (v, point) => [
+      translateX(v[0], point),
+      translateY(v[1], point),
     ],
     scale: (v, s) => [
       v[0] * s,
@@ -22,8 +22,8 @@ export default {
   },
   h: {
     command: 'horizontal lineto',
-    translate: (v, translate) => [
-      translateX(v[0], translate),
+    translate: (v, point) => [
+      translateX(v[0], point),
     ],
     scale: (v, s) => [
       v[0] * s,
@@ -38,8 +38,8 @@ export default {
   },
   v: {
     command: 'vertical lineto',
-    translate: (v, translate) => [
-      translateY(v[0], translate),
+    translate: (v, point) => [
+      translateY(v[0], point),
     ],
     scale: (v, s) => [
       v[0] * s,
@@ -54,9 +54,9 @@ export default {
   },
   l: {
     command: 'lineto',
-    translate: (v, translate) => [
-      translateX(v[0], translate),
-      translateY(v[1], translate),
+    translate: (v, point) => [
+      translateX(v[0], point),
+      translateY(v[1], point),
     ],
     scale: (v, s) => [
       v[0] * s,
@@ -72,14 +72,14 @@ export default {
   },
   a: {
     command: 'elliptical arc',
-    translate: (v, translate) => [
+    translate: (v, point) => [
       v[0],
       v[1],
       v[2],
       v[3],
       v[4],
-      translateX(v[5], translate),
-      translateY(v[6], translate),
+      translateX(v[5], point),
+      translateY(v[6], point),
     ],
     scale: (v, s) => [
       v[0] * s,
@@ -97,13 +97,13 @@ export default {
   },
   c: {
     command: 'curveto',
-    translate: (v, translate) => [
-      translateX(v[0], translate),
-      translateY(v[1], translate),
-      translateX(v[2], translate),
-      translateY(v[3], translate),
-      translateX(v[4], translate),
-      translateY(v[5], translate),
+    translate: (v, point) => [
+      translateX(v[0], point),
+      translateY(v[1], point),
+      translateX(v[2], point),
+      translateY(v[3], point),
+      translateX(v[4], point),
+      translateY(v[5], point),
     ],
     scale: (v, s) => [
       v[0] * s,
@@ -120,11 +120,11 @@ export default {
   },
   s: {
     command: 'smooth curveto',
-    translate: (v, translate) => [
-      translateX(v[0], translate),
-      translateY(v[1], translate),
-      translateX(v[2], translate),
-      translateY(v[3], translate),
+    translate: (v, point) => [
+      translateX(v[0], point),
+      translateY(v[1], point),
+      translateX(v[2], point),
+      translateY(v[3], point),
     ],
     scale: (v, s) => [
       v[0] * s,
@@ -139,11 +139,11 @@ export default {
   },
   q: {
     command: 'quadratic curveto',
-    translate: (v, translate) => [
-      translateX(v[0], translate),
-      translateY(v[1], translate),
-      translateX(v[2], translate),
-      translateY(v[3], translate),
+    translate: (v, point) => [
+      translateX(v[0], point),
+      translateY(v[1], point),
+      translateX(v[2], point),
+      translateY(v[3], point),
     ],
     scale: (v, s) => [
       v[0] * s,
@@ -158,9 +158,9 @@ export default {
   },
   t: {
     command: 'smooth quadratic curveto',
-    translate: (v, translate) => [
-      translateX(v[0], translate),
-      translateY(v[1], translate),
+    translate: (v, point) => [
+      translateX(v[0], point),
+      translateY(v[1], point),
     ],
     scale: (v, s) => [
       v[0] * s,
