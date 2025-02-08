@@ -36,20 +36,17 @@ export default (
     y1 - center[1],
   );
 
-  const deltaRadian = (radianWithEnd - radianWithStart);
-  let radianWithPer = deltaRadian / (n - 1);
-
   radianWithStart -= Math.PI * 0.5;
   radianWithEnd -= Math.PI * 0.5;
-  if (deltaRadian > 0) {
+  if (radianWithEnd > radianWithStart) {
     if (radianWithStart < 0) {
       radianWithStart += 2 * Math.PI;
     }
     if (radianWithEnd < 0) {
       radianWithEnd += 2 * Math.PI;
     }
-    radianWithPer = (radianWithEnd - radianWithStart) / (n - 1);
   }
+  const radianWithPer = (radianWithEnd - radianWithStart) / (n - 1);
 
   for (let j = 0; j < n ; j++) {
     const radian = (radianWithStart +  radianWithPer * j);
