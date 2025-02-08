@@ -56,12 +56,16 @@ export default (commandList) => {
   const start = commandList[0];
   const points = [];
   assert(start[0] === 'M');
-  let moveTo = [start[1], start[2]];
+  let moveTo;
   let rowIndex = 0;
-  for (let i = 1; i < commandList.length; i++) {
+  for (let i = 0; i < commandList.length; i++) {
     const [commandName, ...values] = commandList[i];
     if (commandName === 'M') {
       moveTo = [values[0], values[1]];
+      if (!points[rowIndex]) {
+        points[rowIndex] = [];
+      }
+      points[rowIndex].push([moveTo[0], moveTo[1]]);
     } else if (commandName === 'Z') {
       moveTo = points[rowIndex][0];
       points[rowIndex].push([
