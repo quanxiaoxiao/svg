@@ -42,8 +42,8 @@ export default (
     delta = delta * -1;
   }
 
-  if (Math.abs(delta) > Math.PI) {
-    delta = delta < 0 ? delta + 2 * Math.PI : 2 * Math.PI - delta;
+  if (Math.abs(delta) > Math.PI * 1.01) {
+    delta = delta < 0 ? delta + 2 * Math.PI : delta - Math.PI * 2;
   }
 
   if (radianWithEnd > radianWithStart) {
