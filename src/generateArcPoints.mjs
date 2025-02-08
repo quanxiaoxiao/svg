@@ -31,22 +31,28 @@ export default (
     x0 - center[0],
     y0 - center[1],
   );
-  let radianWithEnd = Math.atan2(
+  const radianWithEnd = Math.atan2(
     x1 - center[0],
     y1 - center[1],
   );
 
-  radianWithStart -= Math.PI * 0.5;
-  radianWithEnd -= Math.PI * 0.5;
+  let delta = radianWithEnd - radianWithStart;
+
+  if (largeArcFlag === 1) {
+    delta = delta * -1;
+  }
+
+  if (Math.abs(delta) > Math.PI) {
+    delta = delta < 0 ? delta + 2 * Math.PI : 2 * Math.PI - delta;
+  }
+
   if (radianWithEnd > radianWithStart) {
     if (radianWithStart < 0) {
       radianWithStart += 2 * Math.PI;
     }
-    if (radianWithEnd < 0) {
-      radianWithEnd += 2 * Math.PI;
-    }
   }
-  const radianWithPer = (radianWithEnd - radianWithStart) / (n - 1);
+  radianWithStart -= Math.PI * 0.5;
+  const radianWithPer = delta / (n - 1);
 
   for (let j = 0; j < n ; j++) {
     const radian = (radianWithStart +  radianWithPer * j);
