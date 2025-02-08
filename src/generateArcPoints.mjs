@@ -30,18 +30,27 @@ export default (
   let radianWithStart = Math.atan2(
     x0 - center[0],
     y0 - center[1],
-  ) - Math.PI * 0.5;
+  );
   let radianWithEnd = Math.atan2(
     x1 - center[0],
     y1 - center[1],
-  ) - Math.PI * 0.5;
-  if (radianWithStart < 0) {
-    radianWithStart += 2 * Math.PI;
+  );
+
+  const deltaRadian = (radianWithEnd - radianWithStart);
+  let radianWithPer = deltaRadian / (n - 1);
+
+  radianWithStart -= Math.PI * 0.5;
+  radianWithEnd -= Math.PI * 0.5;
+  if (deltaRadian > 0) {
+    if (radianWithStart < 0) {
+      radianWithStart += 2 * Math.PI;
+    }
+    if (radianWithEnd < 0) {
+      radianWithEnd += 2 * Math.PI;
+    }
+    radianWithPer = (radianWithEnd - radianWithStart) / (n - 1);
   }
-  if (radianWithEnd < 0) {
-    radianWithEnd += 2 * Math.PI;
-  }
-  const radianWithPer = (radianWithEnd - radianWithStart) / (n - 1);
+
   for (let j = 0; j < n ; j++) {
     const radian = (radianWithStart +  radianWithPer * j);
     const x = Math.cos(radian) * rx;
