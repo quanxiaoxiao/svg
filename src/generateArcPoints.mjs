@@ -25,23 +25,30 @@ export default (
   );
 
   const n = 80;
+  const points = [];
 
-  const radianWithStart = Math.atan2(
+  let radianWithStart = Math.atan2(
     x0 - center[0],
     y0 - center[1],
-  );
-  const radianWithEnd = Math.atan2(
+  ) - Math.PI * 0.5;
+  let radianWithEnd = Math.atan2(
     x1 - center[0],
     y1 - center[1],
-  );
-  const deltaRadian = radianWithEnd - radianWithStart;
-  const perRadian = deltaRadian / (n - 1);
-  const points = [];
-  for (let i = 0; i < n ; i++) {
-    const radian = radianWithStart + perRadian * i;
+  ) - Math.PI * 0.5;
+  if (radianWithStart < 0) {
+    radianWithStart += 2 * Math.PI;
+  }
+  if (radianWithEnd < 0) {
+    radianWithEnd += 2 * Math.PI;
+  }
+  const radianWithPer = (radianWithEnd - radianWithStart) / (n - 1);
+  for (let j = 0; j < n ; j++) {
+    const radian = (radianWithStart +  radianWithPer * j);
+    const x = Math.cos(radian) * rx;
+    const y = Math.sin(radian) * ry;
     points.push([
-      center[0] + Math.cos(radian) * rx,
-      center[1] + Math.sin(radian) * ry,
+      center[0] + x,
+      center[1] - y,
     ]);
   }
 

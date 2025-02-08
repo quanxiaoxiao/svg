@@ -14,7 +14,7 @@ export default (
   x3,
   y3,
 ) => {
-  const n = 40;
+  const n = 120;
   const p0 = [x0, y0];
   const p1 = [x1, y1];
   const p2 = [x2, y2];

@@ -4,7 +4,7 @@ export default (
   x1,
   y1,
 ) => {
-  const n = 80;
+  const n = 120;
   const cx = 2 * x0 - x1;
   const cy = 2 * y0 - y1;
 

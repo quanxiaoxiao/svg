@@ -6,7 +6,7 @@ export default (
   x1,
   y1,
 ) => {
-  const n = 80;
+  const n = 120;
   const points = [];
   for (let i = 0; i < n; i++) {
     const t = i / (n - 1);

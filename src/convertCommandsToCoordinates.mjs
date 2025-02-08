@@ -56,33 +56,28 @@ export default (commandList) => {
   const start = commandList[0];
   const points = [];
   assert(start[0] === 'M');
-  points.push([[start[1], start[2]]]);
+  let moveTo = [start[1], start[2]];
   let rowIndex = 0;
   for (let i = 1; i < commandList.length; i++) {
     const [commandName, ...values] = commandList[i];
     if (commandName === 'M') {
-      if (points[rowIndex].length === 1) {
-        points[rowIndex][0][0] = values[0];
-        points[rowIndex][0][1] = values[1];
-      } else {
-        rowIndex++;
-        points[rowIndex] = [
-          [values[0], values[1]],
-        ];
-      }
+      moveTo = [values[0], values[1]];
     } else if (commandName === 'Z') {
-      const p = points[rowIndex][0];
+      moveTo = points[rowIndex][0];
       points[rowIndex].push([
-        p[0],
-        p[1],
+        moveTo[0],
+        moveTo[1],
       ]);
-      rowIndex++;
-      points[rowIndex] = [[p[0], p[1]]];
+      rowIndex ++;
     } else {
       const handlerItem = handler[commandName];
       assert(handlerItem);
-      const row = points[rowIndex];
-      row.push(...handlerItem(values, row[row.length - 1]));
+      if (!points[rowIndex]) {
+        points[rowIndex] = [];
+      }
+      const coordinates = handlerItem(values, moveTo);
+      moveTo = coordinates[coordinates.length - 1];
+      points[rowIndex].push(...coordinates);
     }
   }
   return points
