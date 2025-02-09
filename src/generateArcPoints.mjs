@@ -1,3 +1,5 @@
+import assert from 'node:assert';
+
 import calculateEllipseCenter from './calculateEllipseCenter.mjs';
 
 export default (
@@ -38,12 +40,34 @@ export default (
 
   let delta = radianWithEnd - radianWithStart;
 
-  if (Math.abs(delta) > Math.PI * 1.04) {
-    delta = delta < 0 ? delta + 2 * Math.PI : delta - Math.PI * 2;
-  }
+  const deltaWithAbas = Math.abs(delta);
 
-  if (largeArcFlag === 1) {
-    delta = delta > 0 ? Math.PI * 2 - delta : Math.PI * 2 + delta;
+  if (deltaWithAbas <= Math.PI * 1.03 && deltaWithAbas >= Math.PI * 0.97) {
+    if (deltaWithAbas < Math.PI) {
+      if (largeArcFlag === 1) {
+        delta = delta > 0 ? delta - Math.PI * 2 : Math.PI * 2 + delta;
+        assert(Math.abs(delta) > Math.PI);
+      }
+    } else if (deltaWithAbas > Math.PI) {
+      if (largeArcFlag === 0) {
+        delta = delta < 0 ? delta + 2 * Math.PI : delta - Math.PI * 2;
+        assert(Math.abs(delta) < Math.PI);
+      }
+    } else {
+      if (largeArcFlag === 0) {
+        // delta = delta * -1;
+      }
+    }
+  } else {
+    if (largeArcFlag === 0 && deltaWithAbas > Math.PI) {
+      delta = delta < 0 ? delta + 2 * Math.PI : delta - Math.PI * 2;
+      assert(Math.abs(delta) < Math.PI);
+    }
+
+    if (largeArcFlag === 1 && deltaWithAbas < Math.PI) {
+      delta = delta > 0 ? delta - Math.PI * 2 : Math.PI * 2 + delta;
+      assert(Math.abs(delta) > Math.PI);
+    }
   }
 
   if (radianWithEnd > radianWithStart) {
