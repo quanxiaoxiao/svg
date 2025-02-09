@@ -38,7 +38,7 @@ export default (
 
   let delta = radianWithEnd - radianWithStart;
 
-  if (Math.abs(delta) > Math.PI * 1.01) {
+  if (Math.abs(delta) > Math.PI * 1.04) {
     delta = delta < 0 ? delta + 2 * Math.PI : delta - Math.PI * 2;
   }
 
