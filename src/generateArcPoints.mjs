@@ -40,6 +40,13 @@ export default (
 
   let delta = radianWithEnd - radianWithStart;
 
+  if (radianWithEnd > radianWithStart) {
+    if (radianWithStart < 0) {
+      radianWithStart += 2 * Math.PI;
+    }
+  }
+  radianWithStart -= Math.PI * 0.5;
+
   const deltaWithAbas = Math.abs(delta);
 
   if (deltaWithAbas <= Math.PI * 1.03 && deltaWithAbas >= Math.PI * 0.97) {
@@ -54,8 +61,8 @@ export default (
         assert(Math.abs(delta) < Math.PI);
       }
     } else {
-      if (largeArcFlag === 0) {
-        // delta = delta * -1;
+      if (largeArcFlag === 1) {
+        delta = delta * -1;
       }
     }
   } else {
@@ -70,12 +77,6 @@ export default (
     }
   }
 
-  if (radianWithEnd > radianWithStart) {
-    if (radianWithStart < 0) {
-      radianWithStart += 2 * Math.PI;
-    }
-  }
-  radianWithStart -= Math.PI * 0.5;
   const radianWithPer = delta / (n - 1);
 
   for (let j = 0; j < n ; j++) {
