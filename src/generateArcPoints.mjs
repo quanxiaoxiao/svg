@@ -38,12 +38,12 @@ export default (
 
   let delta = radianWithEnd - radianWithStart;
 
-  if (largeArcFlag === 1) {
-    delta = delta * -1;
-  }
-
   if (Math.abs(delta) > Math.PI * 1.01) {
     delta = delta < 0 ? delta + 2 * Math.PI : delta - Math.PI * 2;
+  }
+
+  if (largeArcFlag === 1) {
+    delta = delta > 0 ? Math.PI * 2 - delta : Math.PI * 2 + delta;
   }
 
   if (radianWithEnd > radianWithStart) {
