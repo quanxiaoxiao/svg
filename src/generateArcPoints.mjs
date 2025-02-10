@@ -56,17 +56,12 @@ export default (
   const deltaWithAbas = Math.abs(delta);
 
   if (deltaWithAbas <= Math.PI * 1.03 && deltaWithAbas >= Math.PI * 0.97) {
-    if (sweepFlag === 1) {
-      if (delta > 0) {
-      } else if (delta < 0) {
-      }
-    }
-    if (deltaWithAbas < Math.PI) {
+    if (deltaWithAbas < Math.PI - 0.01) {
       if (largeArcFlag === 1) {
         delta = delta > 0 ? delta - Math.PI * 2 : Math.PI * 2 + delta;
         assert(Math.abs(delta) > Math.PI);
       }
-    } else if (deltaWithAbas > Math.PI) {
+    } else if (deltaWithAbas > Math.PI + 0.01) {
       if (largeArcFlag === 0) {
         delta = delta < 0 ? delta + 2 * Math.PI : delta - Math.PI * 2;
         assert(Math.abs(delta) < Math.PI);
