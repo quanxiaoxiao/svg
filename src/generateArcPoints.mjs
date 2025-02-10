@@ -33,23 +33,34 @@ export default (
     x0 - center[0],
     y0 - center[1],
   );
-  const radianWithEnd = Math.atan2(
+  let radianWithEnd = Math.atan2(
     x1 - center[0],
     y1 - center[1],
   );
 
+  if (radianWithStart < 0) {
+    radianWithStart += Math.PI * 2;
+  }
+
+  if (radianWithEnd < 0) {
+    radianWithEnd += Math.PI * 2;
+  }
+
   let delta = radianWithEnd - radianWithStart;
 
-  if (radianWithEnd > radianWithStart) {
-    if (radianWithStart < 0) {
-      radianWithStart += 2 * Math.PI;
-    }
-  }
   radianWithStart -= Math.PI * 0.5;
+  if (radianWithStart < 0) {
+    radianWithStart += 2 * Math.PI;
+  }
 
   const deltaWithAbas = Math.abs(delta);
 
   if (deltaWithAbas <= Math.PI * 1.03 && deltaWithAbas >= Math.PI * 0.97) {
+    if (sweepFlag === 1) {
+      if (delta > 0) {
+      } else if (delta < 0) {
+      }
+    }
     if (deltaWithAbas < Math.PI) {
       if (largeArcFlag === 1) {
         delta = delta > 0 ? delta - Math.PI * 2 : Math.PI * 2 + delta;
@@ -61,7 +72,11 @@ export default (
         assert(Math.abs(delta) < Math.PI);
       }
     } else {
-      if (largeArcFlag === 1) {
+      if (sweepFlag === 1) {
+        if (delta > 0) {
+          delta = delta * -1;
+        }
+      } else if (delta < 0) {
         delta = delta * -1;
       }
     }
