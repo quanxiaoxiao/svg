@@ -73,9 +73,10 @@ export default (commandList) => {
       ]);
       rowIndex ++;
     } else if (commandName === 'S') {
-      const ctrl0 = [
+      const commandValues = [
         moveTo[0],
         moveTo[1],
+        ...values,
       ];
       const [prevCommandName, ...prevCommandValues] = commandList[i - 1];
       if (prevCommandName === 'S' || prevCommandName === 'C') {
@@ -86,8 +87,8 @@ export default (commandList) => {
           prevCommandValues[0],
           prevCommandValues[1],
         ];
-        ctrl0[0] = 2 * ctrl0[0] - ctrlPre[0];
-        ctrl0[1] = 2 * ctrl0[1] - ctrlPre[1];
+        commandValues[0] = 2 * commandValues[0] - ctrlPre[0];
+        commandValues[1] = 2 * commandValues[1] - ctrlPre[1];
       }
       const handlerItem = handler[commandName];
       assert(handlerItem);
@@ -95,22 +96,16 @@ export default (commandList) => {
         points[rowIndex] = [];
       }
       const coordinates = handlerItem(
-        [
-          ctrl0[0],
-          ctrl0[1],
-          values[0],
-          values[1],
-          values[2],
-          values[3],
-        ],
+        commandValues,
         moveTo,
       );
       moveTo = coordinates[coordinates.length - 1];
       points[rowIndex].push(...coordinates);
     } else if (commandName === 'T') {
-      const ctrl0 = [
+      const commandValues = [
         moveTo[0],
         moveTo[1],
+        ...values,
       ];
       const [prevCommandName, ...prevCommandValues] = commandList[i - 1];
       if (prevCommandName === 'T' || prevCommandName === 'Q') {
@@ -121,8 +116,8 @@ export default (commandList) => {
           prevCommandValues[0],
           prevCommandValues[1],
         ];
-        ctrl0[0] = 2 * ctrl0[0] - ctrlPre[0];
-        ctrl0[1] = 2 * ctrl0[1] - ctrlPre[1];
+        commandValues[0] = 2 * commandValues[0] - ctrlPre[0];
+        commandValues[1] = 2 * commandValues[1] - ctrlPre[1];
       }
       const handlerItem = handler[commandName];
       assert(handlerItem);
@@ -130,14 +125,7 @@ export default (commandList) => {
         points[rowIndex] = [];
       }
       const coordinates = handlerItem(
-        [
-          ctrl0[0],
-          ctrl0[1],
-          values[0],
-          values[1],
-          values[2],
-          values[3],
-        ],
+        commandValues,
         moveTo,
       );
       moveTo = coordinates[coordinates.length - 1];
