@@ -3,7 +3,6 @@ import assert from 'node:assert';
 import generateArcPoints from './generateArcPoints.mjs';
 import generateCubicCurvePoints from './generateCubicCurvePoints.mjs';
 import generateQuadraticCurvePoints from './generateQuadraticCurvePoints.mjs';
-import generateSmoothCubicCurvePoints from './generateSmoothCubicCurvePoints.mjs';
 import generateSmoothQuadraticCurvePoints from './generateSmoothQuadraticCurvePoints.mjs';
 
 const handler = {
@@ -27,7 +26,7 @@ const handler = {
     return points;
   },
   S: (values, startPoint) => {
-    const points = generateSmoothCubicCurvePoints(
+    const points = generateCubicCurvePoints(
       startPoint[0],
       startPoint[1],
       ...values,
@@ -73,6 +72,41 @@ export default (commandList) => {
         moveTo[1],
       ]);
       rowIndex ++;
+    } else if (commandName === 'S') {
+      const ctrl0 = [
+        moveTo[0] * 2 - moveTo[0],
+        moveTo[1] * 2 - moveTo[1],
+      ];
+      const [prevCommandName, ...prevCommandValues] = commandList[i - 1];
+      if (prevCommandName === 'S' || prevCommandName === 'C') {
+        const ctrlPre = prevCommandName === 'C' ? [
+          prevCommandValues[2],
+          prevCommandValues[3],
+        ] : [
+          prevCommandValues[0],
+          prevCommandValues[1],
+        ];
+        ctrl0[0] = 2 * moveTo[0] - ctrlPre[0];
+        ctrl0[1] = 2 * moveTo[1] - ctrlPre[1];
+      }
+      const handlerItem = handler[commandName];
+      assert(handlerItem);
+      if (!points[rowIndex]) {
+        points[rowIndex] = [];
+      }
+      const coordinates = handlerItem(
+        [
+          ctrl0[0],
+          ctrl0[1],
+          values[0],
+          values[1],
+          values[2],
+          values[3],
+        ],
+        moveTo,
+      );
+      moveTo = coordinates[coordinates.length - 1];
+      points[rowIndex].push(...coordinates);
     } else {
       const handlerItem = handler[commandName];
       assert(handlerItem);
