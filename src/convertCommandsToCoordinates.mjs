@@ -3,7 +3,6 @@ import assert from 'node:assert';
 import generateArcPoints from './generateArcPoints.mjs';
 import generateCubicCurvePoints from './generateCubicCurvePoints.mjs';
 import generateQuadraticCurvePoints from './generateQuadraticCurvePoints.mjs';
-import generateSmoothQuadraticCurvePoints from './generateSmoothQuadraticCurvePoints.mjs';
 
 const handler = {
   L: (values) => [[values[0], values[1]]],
@@ -34,14 +33,6 @@ const handler = {
     return points;
   },
   T: (values, startPoint) => {
-    /*
-    const points = generateSmoothQuadraticCurvePoints(
-      startPoint[0],
-      startPoint[1],
-      ...values,
-    );
-    return points;
-    */
     const points = generateQuadraticCurvePoints(
       startPoint[0],
       startPoint[1],
