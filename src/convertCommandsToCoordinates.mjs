@@ -17,16 +17,16 @@ const handler = {
     );
     return points;
   },
-  Q: (values, startPoint) => {
-    const points = generateQuadraticCurvePoints(
+  S: (values, startPoint) => {
+    const points = generateCubicCurvePoints(
       startPoint[0],
       startPoint[1],
       ...values,
     );
     return points;
   },
-  S: (values, startPoint) => {
-    const points = generateCubicCurvePoints(
+  Q: (values, startPoint) => {
+    const points = generateQuadraticCurvePoints(
       startPoint[0],
       startPoint[1],
       ...values,
