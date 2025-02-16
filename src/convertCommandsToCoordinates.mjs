@@ -65,8 +65,9 @@ export default (commandList) => {
       }
       points[rowIndex].push([moveTo[0], moveTo[1]]);
     } else if (commandName === 'Z') {
-      assert(points[rowIndex] && points[rowIndex][0] && points[rowIndex][0].length === 2);
+      assert(points[rowIndex] && points[rowIndex][0]);
       moveTo = points[rowIndex][0];
+      assert(moveTo && moveTo.length === 2);
       points[rowIndex].push([
         moveTo[0],
         moveTo[1],
