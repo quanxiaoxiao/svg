@@ -72,71 +72,46 @@ export default (commandList) => {
         moveTo[1],
       ]);
       rowIndex ++;
-    } else if (commandName === 'S') {
-      const commandValues = [
-        moveTo[0],
-        moveTo[1],
-        ...values,
-      ];
-      const [prevCommandName, ...prevCommandValues] = commandList[i - 1];
-      if (prevCommandName === 'S' || prevCommandName === 'C') {
-        const ctrlPre = prevCommandName === 'C' ? [
-          prevCommandValues[2],
-          prevCommandValues[3],
-        ] : [
-          prevCommandValues[0],
-          prevCommandValues[1],
-        ];
-        commandValues[0] = 2 * commandValues[0] - ctrlPre[0];
-        commandValues[1] = 2 * commandValues[1] - ctrlPre[1];
-      }
-      const handlerItem = handler[commandName];
-      assert(handlerItem);
-      if (!points[rowIndex]) {
-        points[rowIndex] = [];
-      }
-      const coordinates = handlerItem(
-        commandValues,
-        moveTo,
-      );
-      moveTo = coordinates[coordinates.length - 1];
-      points[rowIndex].push(...coordinates);
-    } else if (commandName === 'T') {
-      const commandValues = [
-        moveTo[0],
-        moveTo[1],
-        ...values,
-      ];
-      const [prevCommandName, ...prevCommandValues] = commandList[i - 1];
-      if (prevCommandName === 'T' || prevCommandName === 'Q') {
-        const ctrlPre = prevCommandName === 'Q' ? [
-          prevCommandValues[0],
-          prevCommandValues[1],
-        ] : [
-          prevCommandValues[0],
-          prevCommandValues[1],
-        ];
-        commandValues[0] = 2 * commandValues[0] - ctrlPre[0];
-        commandValues[1] = 2 * commandValues[1] - ctrlPre[1];
-      }
-      const handlerItem = handler[commandName];
-      assert(handlerItem);
-      if (!points[rowIndex]) {
-        points[rowIndex] = [];
-      }
-      const coordinates = handlerItem(
-        commandValues,
-        moveTo,
-      );
-      moveTo = coordinates[coordinates.length - 1];
-      points[rowIndex].push(...coordinates);
     } else {
+      const commandValues = [
+        ...values,
+      ];
+      if (commandName === 'S' || commandName === 'T') {
+        commandValues.unshift(moveTo[1]);
+        commandValues.unshift(moveTo[0]);
+        const [prevCommandName, ...prevCommandValues] = commandList[i - 1];
+        if (commandName === 'S' && (prevCommandName === 'S' || prevCommandName === 'C')) {
+          const ctrlPre = prevCommandName === 'C' ? [
+            prevCommandValues[2],
+            prevCommandValues[3],
+          ] : [
+            prevCommandValues[0],
+            prevCommandValues[1],
+          ];
+          commandValues[0] = 2 * commandValues[0] - ctrlPre[0];
+          commandValues[1] = 2 * commandValues[1] - ctrlPre[1];
+        }
+        if (commandName === 'T' && prevCommandName === 'T' || prevCommandName === 'Q') {
+          const ctrlPre = prevCommandName === 'Q' ? [
+            prevCommandValues[0],
+            prevCommandValues[1],
+          ] : [
+            prevCommandValues[0],
+            prevCommandValues[1],
+          ];
+          commandValues[0] = 2 * commandValues[0] - ctrlPre[0];
+          commandValues[1] = 2 * commandValues[1] - ctrlPre[1];
+        }
+      }
       const handlerItem = handler[commandName];
       assert(handlerItem);
       if (!points[rowIndex]) {
         points[rowIndex] = [];
       }
-      const coordinates = handlerItem(values, moveTo);
+      const coordinates = handlerItem(
+        commandValues,
+        moveTo,
+      );
       moveTo = coordinates[coordinates.length - 1];
       points[rowIndex].push(...coordinates);
     }
