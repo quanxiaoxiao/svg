@@ -74,8 +74,8 @@ export default (commandList) => {
       rowIndex ++;
     } else if (commandName === 'S') {
       const ctrl0 = [
-        moveTo[0] * 2 - moveTo[0],
-        moveTo[1] * 2 - moveTo[1],
+        moveTo[0],
+        moveTo[1],
       ];
       const [prevCommandName, ...prevCommandValues] = commandList[i - 1];
       if (prevCommandName === 'S' || prevCommandName === 'C') {
@@ -86,8 +86,8 @@ export default (commandList) => {
           prevCommandValues[0],
           prevCommandValues[1],
         ];
-        ctrl0[0] = 2 * moveTo[0] - ctrlPre[0];
-        ctrl0[1] = 2 * moveTo[1] - ctrlPre[1];
+        ctrl0[0] = 2 * ctrl0[0] - ctrlPre[0];
+        ctrl0[1] = 2 * ctrl0[1] - ctrlPre[1];
       }
       const handlerItem = handler[commandName];
       assert(handlerItem);
