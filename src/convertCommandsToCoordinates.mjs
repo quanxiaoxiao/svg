@@ -34,7 +34,15 @@ const handler = {
     return points;
   },
   T: (values, startPoint) => {
+    /*
     const points = generateSmoothQuadraticCurvePoints(
+      startPoint[0],
+      startPoint[1],
+      ...values,
+    );
+    return points;
+    */
+    const points = generateQuadraticCurvePoints(
       startPoint[0],
       startPoint[1],
       ...values,
@@ -82,6 +90,41 @@ export default (commandList) => {
         const ctrlPre = prevCommandName === 'C' ? [
           prevCommandValues[2],
           prevCommandValues[3],
+        ] : [
+          prevCommandValues[0],
+          prevCommandValues[1],
+        ];
+        ctrl0[0] = 2 * ctrl0[0] - ctrlPre[0];
+        ctrl0[1] = 2 * ctrl0[1] - ctrlPre[1];
+      }
+      const handlerItem = handler[commandName];
+      assert(handlerItem);
+      if (!points[rowIndex]) {
+        points[rowIndex] = [];
+      }
+      const coordinates = handlerItem(
+        [
+          ctrl0[0],
+          ctrl0[1],
+          values[0],
+          values[1],
+          values[2],
+          values[3],
+        ],
+        moveTo,
+      );
+      moveTo = coordinates[coordinates.length - 1];
+      points[rowIndex].push(...coordinates);
+    } else if (commandName === 'T') {
+      const ctrl0 = [
+        moveTo[0],
+        moveTo[1],
+      ];
+      const [prevCommandName, ...prevCommandValues] = commandList[i - 1];
+      if (prevCommandName === 'T' || prevCommandName === 'Q') {
+        const ctrlPre = prevCommandName === 'Q' ? [
+          prevCommandValues[0],
+          prevCommandValues[1],
         ] : [
           prevCommandValues[0],
           prevCommandValues[1],
