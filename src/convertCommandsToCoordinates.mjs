@@ -114,6 +114,7 @@ export default (commandList) => {
         moveTo,
       );
       moveTo = coordinates[coordinates.length - 1];
+      assert(moveTo && moveTo.length === 2);
       points[rowIndex].push(...coordinates);
     }
   }
