@@ -1,5 +1,3 @@
-import assert from 'node:assert';
-
 import calculateEllipseCenter from './calculateEllipseCenter.mjs';
 
 export default (
@@ -59,12 +57,10 @@ export default (
     if (deltaWithAbas < Math.PI - 0.01) {
       if (largeArcFlag === 1) {
         delta = delta > 0 ? delta - Math.PI * 2 : Math.PI * 2 + delta;
-        assert(Math.abs(delta) > Math.PI);
       }
     } else if (deltaWithAbas > Math.PI + 0.01) {
       if (largeArcFlag === 0) {
         delta = delta < 0 ? delta + 2 * Math.PI : delta - Math.PI * 2;
-        assert(Math.abs(delta) < Math.PI);
       }
     } else {
       if (sweepFlag === 1) {
@@ -78,12 +74,10 @@ export default (
   } else {
     if (largeArcFlag === 0 && deltaWithAbas > Math.PI) {
       delta = delta < 0 ? delta + 2 * Math.PI : delta - Math.PI * 2;
-      assert(Math.abs(delta) < Math.PI);
     }
 
     if (largeArcFlag === 1 && deltaWithAbas < Math.PI) {
       delta = delta > 0 ? delta - Math.PI * 2 : Math.PI * 2 + delta;
-      assert(Math.abs(delta) > Math.PI);
     }
   }
 
