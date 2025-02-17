@@ -3,6 +3,31 @@ import assert from 'node:assert';
 import generateArcPoints from './generateArcPoints.mjs';
 import generateCubicCurvePoints from './generateCubicCurvePoints.mjs';
 import generateQuadraticCurvePoints from './generateQuadraticCurvePoints.mjs';
+import getLastPointOfCommands from './getLastPointOfCommands.mjs';
+
+const walk = (commandList, offset) => {
+  assert(commandList.length > 0);
+  if (offset === 0) {
+    assert(commandList[0] === 'M');
+    return [commandList[0][1], commandList[0][2]];
+  }
+  const [prevCommandName, ...prevCommandValues] = commandList[offset - 1];
+  const [commandName] = commandList[offset];
+  assert(commandName === 'T');
+  if (prevCommandName === 'Q') {
+    const [x, y] = getLastPointOfCommands(commandList.slice(0, offset));
+    return [
+      2 * x - prevCommandValues[0],
+      2 * y - prevCommandValues[1],
+    ];
+  }
+  const ctrlPre = walk(commandList, offset - 1);
+  const [x, y] = getLastPointOfCommands(commandList.slice(0, offset));
+  return [
+    2 * x - ctrlPre[0],
+    2 * y - ctrlPre[1],
+  ];
+};
 
 const handler = {
   L: (values) => [[values[0], values[1]]],
@@ -74,9 +99,7 @@ export default (commandList) => {
       ]);
       rowIndex ++;
     } else {
-      const commandValues = [
-        ...values,
-      ];
+      const commandValues = [...values];
       if (commandName === 'S' || commandName === 'T') {
         commandValues.unshift(moveTo[1]);
         commandValues.unshift(moveTo[0]);
@@ -92,16 +115,10 @@ export default (commandList) => {
           commandValues[0] = 2 * commandValues[0] - ctrlPre[0];
           commandValues[1] = 2 * commandValues[1] - ctrlPre[1];
         }
-        if (commandName === 'T' && prevCommandName === 'T' || prevCommandName === 'Q') {
-          const ctrlPre = prevCommandName === 'Q' ? [
-            prevCommandValues[0],
-            prevCommandValues[1],
-          ] : [
-            prevCommandValues[0],
-            prevCommandValues[1],
-          ];
-          commandValues[0] = 2 * commandValues[0] - ctrlPre[0];
-          commandValues[1] = 2 * commandValues[1] - ctrlPre[1];
+        if (commandName === 'T' && (prevCommandName === 'T' || prevCommandName === 'Q')) {
+          const ctrlPre = walk(commandList, i);
+          commandValues[0] = ctrlPre[0];
+          commandValues[1] = ctrlPre[1];
         }
       }
       const handlerItem = handler[commandName];
