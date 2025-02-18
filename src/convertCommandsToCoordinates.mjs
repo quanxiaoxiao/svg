@@ -70,7 +70,7 @@ const handler = {
     return points;
   },
   A: (values, startPoint) => {
-    const points =  generateArcPoints(
+    const points = generateArcPoints(
       startPoint[0],
       startPoint[1],
       ...values,

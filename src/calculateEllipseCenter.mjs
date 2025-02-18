@@ -8,7 +8,7 @@ export default (
   sweepFlag,
   x1,
   y1,
-)  => {
+) => {
   const rad = (xAxisRotation * Math.PI) / 180;
   const cosRad = Math.cos(rad);
   const sinRad = Math.sin(rad);

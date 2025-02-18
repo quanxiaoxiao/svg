@@ -84,7 +84,7 @@ export default (
   const radianWithPer = delta / (n - 1);
 
   for (let j = 0; j < n ; j++) {
-    const radian = (radianWithStart +  radianWithPer * j);
+    const radian = (radianWithStart + radianWithPer * j);
     const x = Math.cos(radian) * rx;
     const y = Math.sin(radian) * ry;
     points.push([
