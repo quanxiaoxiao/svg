@@ -1,8 +1,8 @@
 export default ({
   bbox,
-  viewBox,
+  width,
+  height,
 }) => {
-  const [width, height] = viewBox;
   const rect = {
     x: -bbox[0],
     y: -bbox[1],
