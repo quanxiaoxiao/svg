@@ -1,7 +1,7 @@
 import generateArcPoints from './generateArcPoints.mjs';
 import generateCubicCurvePoints from './generateCubicCurvePoints.mjs';
 import generateQuadraticCurvePoints from './generateQuadraticCurvePoints.mjs';
-import getLastPointOfCommands from './getLastPointOfCommands.mjs';
+import extractLastPoint from './extractLastPoint.mjs';
 
 const computeQuadraticControlPoint = (commandList, offset) => {
   if (commandList.length === 0) {
@@ -19,14 +19,14 @@ const computeQuadraticControlPoint = (commandList, offset) => {
     throw new Error('unable get control');
   }
   if (prevCommandName === 'Q') {
-    const [x, y] = getLastPointOfCommands(commandList.slice(0, offset));
+    const [x, y] = extractLastPoint(commandList.slice(0, offset));
     return [
       2 * x - prevCommandValues[0],
       2 * y - prevCommandValues[1],
     ];
   }
   const ctrlPre = computeQuadraticControlPoint(commandList, offset - 1);
-  const [x, y] = getLastPointOfCommands(commandList.slice(0, offset));
+  const [x, y] = extractLastPoint(commandList.slice(0, offset));
   return [
     2 * x - ctrlPre[0],
     2 * y - ctrlPre[1],
