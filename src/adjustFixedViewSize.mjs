@@ -24,8 +24,13 @@ export default ({
   const bbox = getBbox(coordinateList);
   const rect = adjustBboxToViewCenter({
     bbox,
-    width: viewBox[0],
-    height: viewBox[1],
+    ...viewBox ? {
+      width: viewBox[0],
+      height: viewBox[1],
+    } : {
+      width: bbox[2],
+      height: bbox[3],
+    },
   });
   const pathListWithOutput = [];
   for (let i = 0; i < commandList.length; i++) {

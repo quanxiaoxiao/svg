@@ -1,19 +1,18 @@
-export default (str, viewBox = [1024, 1024]) => {
-  const [width, height] = viewBox;
+export default (str) => {
   if (!str) {
-    return [width, height];
+    return null;
   }
   const arr = str.trim().split(/\s+/);
   if (arr.length !== 4) {
-    return [width, height];
+    return null;
   }
   const w = Number(arr[2]);
   const h = Number(arr[3]);
   if (`${w}` !== arr[2] || `${h}` !== arr[3]) {
-    return [width, height];
+    return null;
   }
   if (w <= 0 || h <= 0) {
-    return [width, height];
+    return null;
   }
   return [
     Math.floor(w),
