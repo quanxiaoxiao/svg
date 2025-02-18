@@ -3,7 +3,7 @@ import generateCubicCurvePoints from './generateCubicCurvePoints.mjs';
 import generateQuadraticCurvePoints from './generateQuadraticCurvePoints.mjs';
 import getLastPointOfCommands from './getLastPointOfCommands.mjs';
 
-const getQuadraticCurveControl = (commandList, offset) => {
+const computeQuadraticControlPoint = (commandList, offset) => {
   if (commandList.length === 0) {
     throw new Error('commands is empty');
   }
@@ -25,7 +25,7 @@ const getQuadraticCurveControl = (commandList, offset) => {
       2 * y - prevCommandValues[1],
     ];
   }
-  const ctrlPre = getQuadraticCurveControl(commandList, offset - 1);
+  const ctrlPre = computeQuadraticControlPoint(commandList, offset - 1);
   const [x, y] = getLastPointOfCommands(commandList.slice(0, offset));
   return [
     2 * x - ctrlPre[0],
@@ -85,33 +85,33 @@ export default (commandList) => {
   if (start[0] !== 'M') {
     throw new Error('commands invalid start point is not move');
   }
-  let moveTo;
+  let currentPosition;
   let rowIndex = 0;
   for (let i = 0; i < commandList.length; i++) {
     const [commandName, ...values] = commandList[i];
     if (commandName === 'M') {
-      moveTo = [values[0], values[1]];
+      currentPosition = [values[0], values[1]];
       if (!points[rowIndex]) {
         points[rowIndex] = [];
       }
-      points[rowIndex].push([moveTo[0], moveTo[1]]);
+      points[rowIndex].push([currentPosition[0], currentPosition[1]]);
     } else if (commandName === 'Z') {
       if (points[rowIndex]
         || points[rowIndex][0]
         || points[rowIndex][0].length === 2
       ) {
-        moveTo = points[rowIndex][0];
+        currentPosition = points[rowIndex][0];
         points[rowIndex].push([
-          moveTo[0],
-          moveTo[1],
+          currentPosition[0],
+          currentPosition[1],
         ]);
         rowIndex ++;
       }
     } else {
       const commandValues = [...values];
       if (commandName === 'S' || commandName === 'T') {
-        commandValues.unshift(moveTo[1]);
-        commandValues.unshift(moveTo[0]);
+        commandValues.unshift(currentPosition[1]);
+        commandValues.unshift(currentPosition[0]);
         const [prevCommandName, ...prevCommandValues] = commandList[i - 1];
         if (commandName === 'S' && (prevCommandName === 'S' || prevCommandName === 'C')) {
           const ctrlPre = prevCommandName === 'C' ? [
@@ -125,7 +125,7 @@ export default (commandList) => {
           commandValues[1] = 2 * commandValues[1] - ctrlPre[1];
         }
         if (commandName === 'T' && (prevCommandName === 'T' || prevCommandName === 'Q')) {
-          const ctrlPre = getQuadraticCurveControl(commandList, i);
+          const ctrlPre = computeQuadraticControlPoint(commandList, i);
           commandValues[0] = ctrlPre[0];
           commandValues[1] = ctrlPre[1];
         }
@@ -139,11 +139,11 @@ export default (commandList) => {
       }
       const coordinates = handlerItem(
         commandValues,
-        moveTo,
+        currentPosition,
       );
-      moveTo = coordinates[coordinates.length - 1];
-      if (!moveTo && !moveTo.length === 2) {
-        throw new Error(`\`${JSON.stringify(moveTo)}\` last point invalid`);
+      currentPosition = coordinates[coordinates.length - 1];
+      if (!currentPosition && !currentPosition.length === 2) {
+        throw new Error(`\`${JSON.stringify(currentPosition)}\` last point invalid`);
       }
       points[rowIndex].push(...coordinates);
     }
