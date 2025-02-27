@@ -1,7 +1,7 @@
+import extractLastPoint from './extractLastPoint.mjs';
 import generateArcPoints from './generateArcPoints.mjs';
 import generateCubicCurvePoints from './generateCubicCurvePoints.mjs';
 import generateQuadraticCurvePoints from './generateQuadraticCurvePoints.mjs';
-import extractLastPoint from './extractLastPoint.mjs';
 
 const computeQuadraticControlPoint = (commandList, offset) => {
   if (commandList.length === 0) {
