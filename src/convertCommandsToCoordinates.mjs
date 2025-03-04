@@ -86,10 +86,15 @@ export default (commandList) => {
     throw new Error('commands invalid start point is not move');
   }
   let currentPosition;
-  let rowIndex = 0;
+  let rowIndex = -1;
   for (let i = 0; i < commandList.length; i++) {
     const [commandName, ...values] = commandList[i];
     if (commandName === 'M') {
+      if (rowIndex === -1) {
+        rowIndex ++;
+      } else if (points[rowIndex] && points[rowIndex].length > 0) {
+        rowIndex++;
+      }
       currentPosition = [values[0], values[1]];
       if (!points[rowIndex]) {
         points[rowIndex] = [];
